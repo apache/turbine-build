@@ -267,13 +267,9 @@ Find more information [here](https://cwiki.apache.org/confluence/display/INFRA/g
 
 - Generate the site in master branch and optionally save it somewhere
 
-**Single Module**
 
     mvn site
 
-**Multi Module**
-
-    mvn site site:stage
 
 - Save target/site or target/staging into another folder (target may be ignored, but to be sure)
 
@@ -281,20 +277,13 @@ Find more information [here](https://cwiki.apache.org/confluence/display/INFRA/g
 
     whoami: asf-site
 
-- Copy content of saved copy or target/site (single module), target/staging (multi module) to *the root of the branch*
+- Copy content of saved copy or target/site (single module) to *the root of the branch*
 
 - Commit and push (this triggers the site update, if not contact INFRA)
 
 ### ~~Maven Publishing~~
 
 The second steps are not yet tested with GIT repos (2021). Use instead the workflow above (using GIT commands). 
-
-**Multi Module**
-
-    mvn clean site site:stage
-    mvn scm-publish:publish-scm -Dscmpublish.dryRun=true
-
-**Single**
 
 Omit site:stage, which reqires site element definition in distributionManagement
 
