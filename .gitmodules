@@ -1,0 +1,16 @@
+[submodule "site"]
+	path = site
+	url = https://gitbox.apache.org/repos/asf/turbine-site.git
+    branch = master
+[submodule "core"]
+	path = core
+	url = https://gitbox.apache.org/repos/asf/turbine-core.git
+    branch = trunk
+[submodule "parent"]
+	path = parent
+	url = https://gitbox.apache.org/repos/asf/turbine-parent.git
+    branch = master
+[submodule "archetypes"]
+	path = archetypes
+	url = https://gitbox.apache.org/repos/asf/turbine-archetypes.git
+    branch = master
