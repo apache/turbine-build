@@ -231,8 +231,9 @@ and update master repo and delete the tag manually.
   This will trigger (with .asf.yaml configuration) an update to the distribution site.
   
   - SVN checkout target distribution from https://dist.apache.org/repos/dist/release/turbine/<...>/<...>
-  - SVN checkout released source from https://svn.apache.org/repos/asf/turbine/<..>/tags/<..>
-  - Generate artifacts (check local repo and target for artifacts) from released version:
+  - GIT checkout GIT_REPO <foo>-<version>-candidate
+    Find more onformation in [Wiki](https://cwiki.apache.org/confluence/display/TURBINE/Publishing+a+Release)
+  - Generate artifacts (check local repo and target for artifacts) from released version
  
 Checkout the tagged released release and run:
  
@@ -240,7 +241,7 @@ Checkout the tagged released release and run:
 
  
 Generate checksums with UNIX tool shasum (2022 at least sha512), Windows certutil or other tools and 
-copy artifacts and sha-files to dist source/binaries folder.
+copy artifacts and sha-files to the distribution folder dist source/binaries folder.
 
 If not all jars are included (assembly plugin _SHOULD_ run after jar generation), run a second time without clean.
 If no sha512 files are in the target folder, check local repo.

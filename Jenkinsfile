@@ -28,6 +28,8 @@
 // git-websites:
 // "Nodes that are reserved for ANY project that wants to build their website docs and
 // publish directly live (requires asf-site and pypubsub"
+// https://cwiki.apache.org/confluence/display/INFRA/Multibranch+Pipeline+recipes:
+// only Jenkins nodes tagged with "git-websites" are able to push to an ASF Git repositories "asf-site" branch 
 // no git-websites label her using ubuntu
 
 // Jenkins build server used: https://builds.apache.org/ / ci-builds.apache.org
@@ -35,6 +37,8 @@
 // Fulcurm-Build has submodules, which are expcetd for this Jenkinsfile NOT to be fetched if cloning!
 // This is the default (do NOT provide git clone --recurse-submodules flag) and this is because
 // only the current submodule is initialized downstrema with git submodule update --init
+
+// This is a simplified version of turbine-fulcrum-build/Jenkinsfile.
 
 def AGENT_LABEL = env.AGENT_LABEL ?: 'ubuntu'
 
@@ -120,7 +124,7 @@ pipeline
                                 }
                         }
                 }
-            stage('Deploy')
+            stage('Deploy Site')
                 {
                     when
                         {
@@ -140,8 +144,15 @@ pipeline
                             }
                         }
                     }
+                    // Only the nodes labeled 'git-websites' have the credentials to commit to the.
+                    agent {
+                        node {
+                            label 'git-websites'
+                        }
+                    }
                     steps
                         {
+                            echo 'Deploying ${params.TURBINE_COMPONENT} Site'
                             dir("${params.TURBINE_COMPONENT}")
                                 {
                                     script
