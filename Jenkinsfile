@@ -87,19 +87,22 @@ pipeline
         {
             steps
             {
-                git "https://gitbox.apache.org/repos/asf/turbine-${params.TURBINE_COMPONENT}.git"
-                script
+                dir("${params.TURBINE_COMPONENT}")
                 {
-                    sh "pwd"
-                    sh "git branch"
-                    echo "${params.TURBINE_COMPONENT}: Checking out ${params.SUB_MODULE_HEAD}"
-                    sh "git checkout ${params.SUB_MODULE_HEAD}"
-                    env.CURRENT_BRANCH = sh(script: "git status --branch --porcelain | grep '##' | cut -c 4-", returnStdout: true).trim()
-                    echo "CURRENT_BRANCH: ${env.CURRENT_BRANCH}"
-                    // Capture last commit hash for final commit message
-                    env.LAST_SHA = sh(script: 'git log -n 1 --pretty=format:%H', returnStdout: true).trim()
-                    echo "LAST_SHA: ${env.LAST_SHA}"
-                 }
+                    git "https://gitbox.apache.org/repos/asf/turbine-${params.TURBINE_COMPONENT}.git"
+                    script
+                    {
+                        sh "pwd"
+                        sh "git branch"
+                        echo "${params.TURBINE_COMPONENT}: Checking out ${params.SUB_MODULE_HEAD}"
+                        sh "git checkout ${params.SUB_MODULE_HEAD}"
+                        env.CURRENT_BRANCH = sh(script: "git status --branch --porcelain | grep '##' | cut -c 4-", returnStdout: true).trim()
+                        echo "CURRENT_BRANCH: ${env.CURRENT_BRANCH}"
+                        // Capture last commit hash for final commit message
+                        env.LAST_SHA = sh(script: 'git log -n 1 --pretty=format:%H', returnStdout: true).trim()
+                        echo "LAST_SHA: ${env.LAST_SHA}"
+                     }
+                }
             }
         }
         stage('Build')
@@ -110,13 +113,16 @@ pipeline
             }
             steps
             {
-                sh "pwd"
-                // builds into target/site folder, this folder is expected to be preserved as it is used in next step
-                sh "mvn $MAVEN_CLI_OPTS $MAVEN_GOALS"
-                // save as pipeline stash, thanks to https://cwiki.apache.org/confluence/display/INFRA/Multibranch+Pipeline+recipes
-                // https://docs.cloudbees.com/docs/admin-resources/latest/automating-with-jenkinsfile/using-multiple-agents
-                stash includes: "${STAGING_DIR}/**/*", name: "${params.TURBINE_COMPONENT}-site"
-            }
+                dir("${params.TURBINE_COMPONENT}")
+                {
+                    sh "pwd"
+                    // builds into target/site folder, this folder is expected to be preserved as it is used in next step
+                    sh "mvn $MAVEN_CLI_OPTS $MAVEN_GOALS"
+                    // save as pipeline stash, thanks to https://cwiki.apache.org/confluence/display/INFRA/Multibranch+Pipeline+recipes
+                    // https://docs.cloudbees.com/docs/admin-resources/latest/automating-with-jenkinsfile/using-multiple-agents
+                    stash includes: "${STAGING_DIR}/**/*", name: "${params.TURBINE_COMPONENT}-site"
+                }
+            } 
         }
         stage('Deploy Site')
         {
@@ -151,49 +157,52 @@ pipeline
             steps
             {
                 echo "Deploying ${params.TURBINE_COMPONENT} Site"
-                //sh "git submodule update --init ${params.TURBINE_COMPONENT}"                           
-                git "https://gitbox.apache.org/repos/asf/turbine-${params.TURBINE_COMPONENT}.git"
-                dir("${STAGING_DIR}") {
-                    deleteDir()
-                }
-                script
+                dir("${params.TURBINE_COMPONENT}")
                 {
-                    sh "pwd"
-                    unstash "${params.TURBINE_COMPONENT}-site"
-                    // Checkout branch with current site content, target folder should be ignored!
-                    sh "git checkout ${DEPLOY_BRANCH}"
-                    // fetch already in checkout
+                    //sh "git submodule update --init ${params.TURBINE_COMPONENT}"                           
+                    git "https://gitbox.apache.org/repos/asf/turbine-${params.TURBINE_COMPONENT}.git"
+                    dir("${STAGING_DIR}") {
+                        deleteDir()
+                    }
+                    script
+                    {
+                        sh "pwd"
+                        unstash "${params.TURBINE_COMPONENT}-site"
+                        // Checkout branch with current site content, target folder should be ignored!
+                        sh "git checkout ${DEPLOY_BRANCH}"
+                        // fetch already in checkout
 
-                    def exists = fileExists '.gitignore'
-                    if (exists)
-                    {
-                        echo "Turbine component ${params.TURBINE_COMPONENT}: .gitignore exists in branch ${DEPLOY_BRANCH}."
-                    } else {
-                        echo "Turbine component ${params.TURBINE_COMPONENT}: creating default .gitignore in branch ${DEPLOY_BRANCH}."
-                        sh "echo 'target/' > .gitignore"
-                        sh "git add .gitignore"
-                        sh "git commit -m \"Added .gitignore\""
-                    }
-                    // Remove the content (files) of the root folder and subdirectories and replace it with the content of the STAGING_DIR folder
-                    sh """
-git ls-files | grep -v "^\\." | xargs  rm -f
-"""
-                    sh "cp -rf ./${STAGING_DIR}/* ."
-                    // Commit the changes to the target branch BRANCH_NAME, groovy allows to omit env. prefix, available in multibranch pipeline.
-                    env.COMMIT_MESSAGE = "${params.TURBINE_COMPONENT}: Updated site in ${DEPLOY_BRANCH} from ${env.CURRENT_BRANCH} (${env.LAST_SHA}) from ${params.MULTI_MODULE} from ${BUILD_URL}"
-                    if ( params.TEST_MODE.toBoolean() == false) 
-                    {
-                        echo "committing ..."
-                        sh "git add -A"
-                        sh "git commit -m \"${env.COMMIT_MESSAGE}\" | true"
-                        // Push the generated content for deployment
-                        sh "git push -u origin ${DEPLOY_BRANCH}"
-                    } else {
-                        echo 'Skipping as test mode is set ...'
-                    }
-               }
-               dir("${STAGING_DIR}") {
-                   deleteDir()
+                        def exists = fileExists '.gitignore'
+                        if (exists)
+                        {
+                            echo "Turbine component ${params.TURBINE_COMPONENT}: .gitignore exists in branch ${DEPLOY_BRANCH}."
+                        } else {
+                            echo "Turbine component ${params.TURBINE_COMPONENT}: creating default .gitignore in branch ${DEPLOY_BRANCH}."
+                            sh "echo 'target/' > .gitignore"
+                            sh "git add .gitignore"
+                            sh "git commit -m \"Added .gitignore\""
+                        }
+                        // Remove the content (files) of the root folder and subdirectories and replace it with the content of the STAGING_DIR folder
+                        sh """
+    git ls-files | grep -v "^\\." | xargs  rm -f
+    """
+                        sh "cp -rf ./${STAGING_DIR}/* ."
+                        // Commit the changes to the target branch BRANCH_NAME, groovy allows to omit env. prefix, available in multibranch pipeline.
+                        env.COMMIT_MESSAGE = "${params.TURBINE_COMPONENT}: Updated site in ${DEPLOY_BRANCH} from ${env.CURRENT_BRANCH} (${env.LAST_SHA}) from ${params.MULTI_MODULE} from ${BUILD_URL}"
+                        if ( params.TEST_MODE.toBoolean() == false) 
+                        {
+                            echo "committing ..."
+                            sh "git add -A"
+                            sh "git commit -m \"${env.COMMIT_MESSAGE}\" | true"
+                            // Push the generated content for deployment
+                            sh "git push -u origin ${DEPLOY_BRANCH}"
+                        } else {
+                            echo 'Skipping as test mode is set ...'
+                        }
+                   }
+                   dir("${STAGING_DIR}") {
+                       deleteDir()
+                   }
                }
            }
        }
