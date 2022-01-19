@@ -34,9 +34,8 @@
 
 // Jenkins build server used: https://builds.apache.org/ / ci-builds.apache.org
 
-// Fulcurm-Build has submodules, which are expcetd for this Jenkinsfile NOT to be fetched if cloning!
-// This is the default (do NOT provide git clone --recurse-submodules flag) and this is because
-// only the current submodule is initialized downstrema with git submodule update --init
+// Fulcurm-Build has submodules, which are NOT Used for this Jenkinsfile.
+// The default is NOT to provide git clone --recurse-submodules flag).
 
 // This is a simplified version of turbine-fulcrum-build/Jenkinsfile.
 
@@ -111,15 +110,12 @@ pipeline
             }
             steps
             {
-                dir("${params.TURBINE_COMPONENT}")
-                    {
-                        sh "pwd"
-                        // builds into target/site folder, this folder is expected to be preserved as it is used in next step
-                        sh "mvn $MAVEN_CLI_OPTS $MAVEN_GOALS"
-                        // save as pipeline stash, thanks to https://cwiki.apache.org/confluence/display/INFRA/Multibranch+Pipeline+recipes
-                        // https://docs.cloudbees.com/docs/admin-resources/latest/automating-with-jenkinsfile/using-multiple-agents
-                        stash includes: "${STAGING_DIR}/**/*", name: "${params.TURBINE_COMPONENT}-site"
-                    }
+                sh "pwd"
+                // builds into target/site folder, this folder is expected to be preserved as it is used in next step
+                sh "mvn $MAVEN_CLI_OPTS $MAVEN_GOALS"
+                // save as pipeline stash, thanks to https://cwiki.apache.org/confluence/display/INFRA/Multibranch+Pipeline+recipes
+                // https://docs.cloudbees.com/docs/admin-resources/latest/automating-with-jenkinsfile/using-multiple-agents
+                stash includes: "${STAGING_DIR}/**/*", name: "${params.TURBINE_COMPONENT}-site"
             }
         }
         stage('Deploy Site')
