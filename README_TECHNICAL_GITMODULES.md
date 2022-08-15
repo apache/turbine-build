@@ -8,11 +8,15 @@ Find the similar Git modules for Fulcrum Turbine Fulcrum Build on GitHub [here][
 
 ## G I T  S U B M O D U L E S
 
-Show all changes for submodules
+Show all changes for submodules (assuming your default branch is "master")
 
    git submodule foreach "git checkout master || :"
 
-    git submodule foreach "git diff"  > all.diff.patch
+   (core has default branch trunk):
+   
+   git submodule update core
+   
+   git submodule foreach "git diff"  > all.diff.patch
 
 Commit all changes for submodules with default message
 
