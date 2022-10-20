@@ -41,6 +41,16 @@ Check, that all is committed (no diffs anymore):
     Entering 'parent'
     Entering 'site'
     
+### Submodule fulcrum 
+
+This is a Git module hierarchy in itself, which requires to fetch it the same way as the parent  
+
+    cd fulcrum   
+    git submodule update --init --remote 
+    
+Then you could just use the same commands like
+
+    git submodule foreach "git diff"
 
 ## License
 

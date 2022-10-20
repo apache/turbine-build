@@ -81,7 +81,7 @@ Turbine Core documenttion is found [here](https://turbine.apache.org/).
 
 ## Requirements
 
-Turbine requires Java 8 (since v4). 
+Turbine requires Java 11 since v5.2 and Java 8 (since v4). 
   
 ### Contributing
 
