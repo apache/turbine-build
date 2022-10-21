@@ -96,7 +96,6 @@ pipeline
                         sh "pwd"
                         sh "git branch"
                         echo "${params.TURBINE_COMPONENT}: Checked out ${params.SUB_MODULE_HEAD}"
-                        sh "git checkout ${params.SUB_MODULE_HEAD}"
                         env.CURRENT_BRANCH = sh(script: "git status --branch --porcelain | grep '##' | cut -c 4-", returnStdout: true).trim()
                         echo "CURRENT_BRANCH: ${env.CURRENT_BRANCH}"
                         // Capture last commit hash for final commit message
