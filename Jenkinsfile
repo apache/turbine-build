@@ -90,7 +90,7 @@ pipeline
                 dir("${params.TURBINE_COMPONENT}")
                 {
                     // git "https://gitbox.apache.org/repos/asf/turbine-${params.TURBINE_COMPONENT}.git"
-                    git branch: '${params.SUB_MODULE_HEAD}', url: 'https://gitbox.apache.org/repos/asf/${params.TURBINE_COMPONENT}.git'
+                    git branch: "${params.SUB_MODULE_HEAD}", url: "https://gitbox.apache.org/repos/asf/${params.TURBINE_COMPONENT}.git"
                     script
                     {
                         sh "pwd"
