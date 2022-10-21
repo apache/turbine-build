@@ -159,8 +159,9 @@ pipeline
                 echo "Deploying ${params.TURBINE_COMPONENT} Site"
                 dir("${params.TURBINE_COMPONENT}")
                 {
-                    //sh "git submodule update --init ${params.TURBINE_COMPONENT}"                           
-                    git "https://gitbox.apache.org/repos/asf/turbine-${params.TURBINE_COMPONENT}.git"
+                    // sh "git submodule update --init ${params.TURBINE_COMPONENT}"                           
+                    // git "https://gitbox.apache.org/repos/asf/turbine-${params.TURBINE_COMPONENT}.git"
+                    git branch: "${params.SUB_MODULE_HEAD}", url: "https://gitbox.apache.org/repos/asf/turbine-${params.TURBINE_COMPONENT}.git"
                     dir("${STAGING_DIR}") {
                         deleteDir()
                     }
