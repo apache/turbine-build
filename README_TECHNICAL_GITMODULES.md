@@ -15,9 +15,9 @@ You could use git to checkout current trunk:
 
      git clone https://gitbox.apache.org/repos/asf/turbine-build.git 
      
-N.B. The submodules are included with a relative URL. If you are cloning with https + Github  and you want later psuh you have to switsch either to ush) or the SSH-URL or fetching from gitbox (recommended).
+N.B. The submodules are included with a relative URL. If you are cloning with https + Github  and you want later push you have to switch either to the SSH-URL (ssh://git@github.com/) or fetching from gitbox (recommended) using your Apache credentials.
 
-If you want later update the remote URLS you could use sync command to achieve this:
+If you want later update the remote URLS you could use the sync command to achieve this:
 
     git submodule sync
 

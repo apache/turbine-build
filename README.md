@@ -27,6 +27,8 @@ https://maven.apache.org/guides/getting-started/
 
 Turbine Build does use (Git Submodules)[https://git-scm.com/book/en/v2/Git-Tools-Submodules].
 
+Find more detailed information (here)[README_TECHNICAL_GITMODULES.md].
+
 You could use git to checkout current trunk:
 
      git clone --recurse-submodules https://github.com/apache/turbine-build.git 
@@ -260,7 +262,9 @@ If no sha512 files are in the target folder, check local repo.
 
 ## Git Checkout <tagged release version> source. Generate and Publish Site
 
-### Description of the process using asf-site branch using GIT commands
+Find an overview about the technical structure of the sites (here)[README_SITE_STRUCTURE.md].
+
+### Short description of the process using asf-site branch using GIT commands
 
 Hint: If checking out the branch asf-site you find an .asf.yaml file, where the exact configuration is found, what happens after site generation.
 

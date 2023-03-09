@@ -68,7 +68,7 @@ After the new site is deployed, change subdir to the next version
     subdir: turbine/development/turbine-5-2
 
 After this Jenkinsfile could be used to publish the site in [Apache Build](https://builds.apache.org/).
-(WORK IN PROGRESS this has to tested yet).
+(WORK IN PROGRESS this has to tested more, but seems to be working).
 
 
 ## License
