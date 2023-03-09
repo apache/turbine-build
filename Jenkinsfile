@@ -120,6 +120,7 @@ pipeline
                     sh "mvn $MAVEN_CLI_OPTS $MAVEN_GOALS"
                     // save as pipeline stash, thanks to https://cwiki.apache.org/confluence/display/INFRA/Multibranch+Pipeline+recipes
                     // https://docs.cloudbees.com/docs/admin-resources/latest/automating-with-jenkinsfile/using-multiple-agents
+                    // Saves a set of files for later use on any node/workspace in the same Pipeline run. By default, stashed files are discarded at the end of a pipeline run. 
                     stash includes: "${STAGING_DIR}/**/*", name: "${params.TURBINE_COMPONENT}-site"
                 }
             } 
@@ -130,13 +131,13 @@ pipeline
             {
                 allOf 
                 {
-                    not 
+                    /*not 
                     {
                         expression 
                         { 
                             params.TEST_MODE 
                         }
-                    }
+                    }*/
                     anyOf
                     {
                         expression
@@ -183,13 +184,15 @@ pipeline
                             sh "git add .gitignore"
                             sh "git commit -m \"Added .gitignore\""
                         }
-                        // Remove the content (files) of the root folder and subdirectories and replace it with the content of the STAGING_DIR folder
+                        // Remove the content (files) of the root folder and subdirectories and replace it with the content of the STAGING_DIR folder. Keep .asf-site and other hidden files.
                         sh """
     git ls-files | grep -v "^\\." | xargs  rm -f
     """
                         sh "cp -rf ./${STAGING_DIR}/* ."
                         // Commit the changes to the target branch BRANCH_NAME, groovy allows to omit env. prefix, available in multibranch pipeline.
                         env.COMMIT_MESSAGE = "${params.TURBINE_COMPONENT}: Updated site in ${DEPLOY_BRANCH} from ${env.CURRENT_BRANCH} (${env.LAST_SHA}) from ${params.MULTI_MODULE} from ${BUILD_URL}"
+                        
+                        // input 'Proceed or Abort '                         
                         if ( params.TEST_MODE.toBoolean() == false) 
                         {
                             echo "committing ..."

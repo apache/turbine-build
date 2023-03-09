@@ -8,13 +8,33 @@ Find the similar Git modules for Fulcrum Turbine Fulcrum Build on GitHub [here][
 
 ## G I T  S U B M O D U L E S
 
-Show all changes for submodules (assuming your default branch is "master")
+
+### Checking out 
+
+You could use git to checkout current trunk:
+
+     git clone https://gitbox.apache.org/repos/asf/turbine-build.git 
+     
+N.B. The submodules are included with a relative URL. If you are cloning with https + Github  and you want later psuh you have to switsch either to ush) or the SSH-URL or fetching from gitbox (recommended).
+
+If you want later update the remote URLS you could use sync command to achieve this:
+
+    git submodule sync
+
+After cloning this repo (turbine-build) fetch the sub repos:
+
+    git submodule update --init --remote 
+
+Update the submodule to master (assuming default branch is "master")
 
    git submodule foreach "git checkout master || :"
 
-   (core has default branch trunk):
+ Turbine-core has default branch trunk.
+ 
+   cd core
+   git checkout trunk
    
-   git submodule update core
+#### More Examples
    
    git submodule foreach "git diff"  > all.diff.patch
 
@@ -50,7 +70,22 @@ This is a Git module hierarchy in itself, which requires to fetch it the same wa
     
 Then you could just use the same commands like
 
+    git submodule foreach "git pull origin master"
+    
+    git submodule foreach "git checkout master"
+    
+    git submodule foreach "git pull"
+
     git submodule foreach "git diff"
+    
+### Other commands
+
+Use Maven commands with git submodule, e.g. 
+
+    git submodule foreach "mvn versions:display-property-updates || :"
+    
+    git submodule foreach "mvn versions:display-dependency-updates"
+    
 
 ## License
 

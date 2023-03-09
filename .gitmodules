@@ -1,20 +1,21 @@
 [submodule "site"]
 	path = site
-	url = https://github.com/apache/turbine-site.git
+	url = ../turbine-site.git
 	branch = master
 [submodule "core"]
 	path = core
-	url = https://github.com/apache/turbine-core.git
+	url = ../turbine-core.git
 	branch = trunk
 [submodule "parent"]
 	path = parent
-	url = https://github.com/apache/turbine-parent.git
+	url = ../turbine-parent.git
 	branch = master
 [submodule "archetypes"]
 	path = archetypes
-	url = https://github.com/apache/turbine-archetypes.git
+	url = ../turbine-archetypes.git
 	branch = master
 [submodule "fulcrum"]
 	path = fulcrum
-	url = https://github.com/apache/turbine-fulcrum-build.git
+	url = ../turbine-fulcrum-build.git
 	branch = master
+   
