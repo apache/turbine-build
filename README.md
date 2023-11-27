@@ -209,7 +209,6 @@ Otherwise reset the commit in master in your checked out trunk/master/main branc
     git reflog
     // find commit previous to release
     git reset –hard <shacommit>
-    git commit "Reset RC to state previous RC due to <Message-ID>"
     git push -f origin master
 
 and update master repo and delete the tag manually.
@@ -218,8 +217,12 @@ and update master repo and delete the tag manually.
 
 - Drop staged repository in nexus and start again with step 1.
 
-
 - Don't forget to refer to the failed vote Message-ID in the commit messages (git, nexus).
+
+After changing, what was missing, refer to the reason in the commit message.
+
+    git commit "Reset RC to state previous RC due to <Message-ID>"
+
 
  
 7. Distribution 

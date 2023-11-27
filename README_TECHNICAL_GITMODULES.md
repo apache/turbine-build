@@ -68,6 +68,10 @@ This is a Git module hierarchy in itself, which requires to fetch it the same wa
     cd fulcrum   
     git submodule update --init --remote 
     
+Later
+
+    git submodule update
+    
 Then you could just use the same commands like
 
     git submodule foreach "git pull origin master"
