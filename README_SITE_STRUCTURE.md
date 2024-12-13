@@ -20,11 +20,11 @@ turbine.apache.org
 | /fulcrum/     | turbine-fulcrum-site.git     |  subdir: fulcrum | wrapper for context path fulcrum/  |
 | /fulcrum/fulcrum-intake/    | turbine-fulcrum-intake.git     |  subdir: fulcrum/fulcrum-intake |  Fulcrum component intake |
 | /fulcrum/fulcrum-json/     | turbine-fulcrum-site.git     |  subdir: fulcrum/fulcrum-json | Fulcrum component json*  |
-| /fulcrum/fulcrum-<COMPONENT>/     | turbine-fulcrum-<COMPONENT>.git     |  subdir: fulcrum/fulcrum-<COMPONENT> | Fulcrum component |
+| /fulcrum/fulcrum-&lt;COMPONENT&gt;/     | turbine-fulcrum-&lt;COMPONENT&gt;.git     |  subdir: fulcrum/fulcrum-&lt;COMPONENT&gt; | Fulcrum component |
 
 This mechanism is possible, because once a subdir (including the root) is published, publishing this and any nested subdir is performed as an git update, not as a clean clone.
 
-TODO: Save previous versions of Fulcrums in the Turbine /turbine/turbine->VERSION>?
+TODO: Save previous versions of Fulcrums in the Turbine /turbine/turbine-<VERSION>?
 
 * A multi modules component requires building the site with mvn site:stage.
 
@@ -58,7 +58,7 @@ to
 Prepare commit and push
 
         git add -A
-        git commit "New site " 
+        git commit -am "New site .." 
         git push
         
 This will put the content into a new node turbine/turbine-5-1.

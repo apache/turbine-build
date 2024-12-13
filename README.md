@@ -117,12 +117,17 @@ You may need to add additional profiles, e.g. -Papache-release,java8 or add -Dgp
     mvn clean site install -Papache-release 
   
 
-If dependency check is skipped by default, do mvn org.owasp:dependency-check-maven:check -Ddependency.check.skip=false
-Since Turbine Parent 8 security check is enabled by default.
+If dependency check is skipped by default, do 
 
-    mvn release:prepare -DdryRun=true -Papache-release -Dtag=<project.artifact>-<version>-candidate
+    mvn org.owasp:dependency-check-maven:check -Ddependency.check.skip=false
     
-Here the tag is already set.
+Run a dry run:
+
+    mvn release:prepare -DdryRun=true -Papache-release 
+    
+If asked set the tag to
+
+    <project.artifact>-<version>-candidate
 
 And finally:
 
@@ -135,13 +140,22 @@ As we using GIT as SCM, be sure that you execute the steps in the *master|trunk|
 
 Find more Information in [Turbine Release Manual](https://cwiki.apache.org/confluence/display/TURBINE/Publishing+a+Release).
 
-If you have not set ssh-key or gpg authentication,  the tasks may require that you explicitely authenticate with -Dusername=<username> -Dpassword=<pw>. 
-
+If you have not set ssh-key or gpg authentication,  the release tasks may require that you explicitely authenticate with 
+    
+    mvn release:prepare -Dusername=<username> -Dpassword=<pw>. 
+    
+Set it for the first task release:prepare, the plugin will save it in release.properties.
 
 Important: Success will be on the master build, the others are skipped.
 
+    mvn release:prepare -Papache-release
+    
+Interactively set tag to <project.artifact>-<version>-candidate
 
-    mvn release:prepare -Papache-release -Dtag=<project.artifact>-<version>-candidate
+
+ Verify tag remote
+ 
+    git ls-remote --tags origin
 
   
 3. Release Preparing
@@ -204,14 +218,15 @@ Find more Information in [Turbine Release Manual](https://cwiki.apache.org/confl
 
 which will delete the tag in git repo tag and revert to the pre-release state.
 
-Otherwise reset the commit in master in your checked out trunk/master/main branch 
+- Deprecated: Push to a previous commit is denied, that is reset the commit in master in your checked out 
+trunk/master/main branch could NOT be done.
 
     git reflog
     // find commit previous to release
     git reset –hard <shacommit>
     git push -f origin master
 
-and update master repo and delete the tag manually.
+- Delete the tag manually.
 
     git push origin :refs/tags/<project.artifact>-<version>-candidate
 
