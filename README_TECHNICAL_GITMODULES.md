@@ -20,6 +20,10 @@ N.B. The submodules are included with a relative URL. If you are cloning with ht
 If you want later update the remote URLS you could use the sync command to achieve this:
 
     git submodule sync
+    
+Later check the status of submodules by
+
+    git submodule status --recursive
 
 After cloning this repo (turbine-build) fetch the sub repos:
 

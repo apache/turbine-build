@@ -5,5 +5,7 @@ target/
 .idea/
 .settings/
 .gdsl/
+.run*
 *~
+*.iml
 .vscode/
