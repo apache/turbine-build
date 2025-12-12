@@ -1,22 +1,24 @@
 # [Apache T U R B I N E](https://turbine.apache.org/)
 
     
-## T U R B I N E  S I T E  S T R U C T U R E  AND P U B L I S H I N G
+## T U R B I N E   S I T E  S T R U C T U R E  AND  P U B L I S H I N G
 
 Assumptions:
 - asf-site branch exists for each GIT repo.
 - Base Git-Repo: https://gitbox.apache.org/repos/asf/
 
-The table shows the subfolder assignments (in .asf.yaml) from subdir to the web site:
+The table shows the subfolder assignments (in .asf.yaml) from subdir to the web site (https://turbine.apache.org/):
 
 turbine.apache.org 
 
 | URL context        |  GIT REPO           | .asf.yaml  subdir | Explanation |
 | ------------- |:-------------:| -----:|----:|
-| /     | turbine--site.git  |  .asf.yaml has no subdir set  | the site content is published to the root |
-| /turbine/development/turbine-5-1      | turbine-core.git      |    subdir: turbine/development/turbine-5-1 | development, usually a SNAPSHOT version  |
-| /turbine/turbine-2-3-3      | turbine-core.git      |   subdir: turbine/turbine-2-3-3 |  previous release 2.3.3, (no dots allowed in subdir!) |
-| /turbine/turbine-5-0      | turbine-core.git      |   subdir: turbine/turbine-5.0 |  previous release 5.0, (no dots allowed in subdir!) |
+| /     | turbine-site.git  |  .asf.yaml has no subdir set  | the (master) site content, which is published into the root. |
+| /turbine/development/turbine-7-1      | turbine-core.git      |    subdir: turbine/development/turbine-7-1 | development, usually a SNAPSHOT version  |
+| /turbine/turbine-7-0      | turbine-core.git      |   subdir: turbine/turbine-7-0 |  release 7.0, (no dots allowed in subdir!) |
+| /turbine/turbine-2-3-3      | turbine-core.git      |   subdir: turbine/turbine-2-3-3 |  example for previous release 2.3.3 |
+| /      | turbine-parent.git      |   subdir: turbine-parent | the Turbine parent pom |
+| /      | turbine-archetypes.git      |   subdir: turbine-webapp-archetype | the Turbine webapp archetpye |
 | /fulcrum/     | turbine-fulcrum-site.git     |  subdir: fulcrum | wrapper for context path fulcrum/  |
 | /fulcrum/fulcrum-intake/    | turbine-fulcrum-intake.git     |  subdir: fulcrum/fulcrum-intake |  Fulcrum component intake |
 | /fulcrum/fulcrum-json/     | turbine-fulcrum-site.git     |  subdir: fulcrum/fulcrum-json | Fulcrum component json*  |
